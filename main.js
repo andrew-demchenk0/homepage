@@ -23,14 +23,19 @@ const themeCheckbox = document.getElementById('themeCheckbox');
     });
 
 // jsPDF
-document.getElementById('printButton').addEventListener('click', function() {
-    const pdf = new jsPDF();
-    const content = document.getElementById('printBlock').innerHTML;
-  
-    pdf.fromHTML(content, 15, 15, {
-      width: 180
-    }, function() {
-      pdf.save('your_generated_pdf.pdf');
-    });
-  });
+function printBlock(printContent) {
+    const blockToPrint = document.getElementById(printContent);
+
+    const opt = {
+        margin: [8, 0, 0, 0],
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { scale: 10, logging: true, dpi: 960, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        jsPDFEditor: { removeTitle: true, removePrint: true, removeLogo: true, logoImage: 'data:image/png;base64,...' },
+    };
+    
+    html2pdf().set(opt).from(blockToPrint).save();
+}
+
   
